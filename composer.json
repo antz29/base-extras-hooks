@@ -1,0 +1,17 @@
+{
+    "name": "antz29/base-extras-hooks",
+    "description": "Allows you to use a simple hook pattern. Used by the Base PHP Framework.",
+    "keywords": ["hooks", "base"],
+    "type": "library",
+    "homepage": "https://github.com/antz29/base-extras-hooks",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "John Le Drew",
+            "homepage": "http://antz29.com/"
+        }
+    ],
+    "require": {
+        "php" : ">=5.4.0"
+    }
+}
