@@ -2,24 +2,30 @@
 
 namespace Base\Extras\Hooks;
 
+use Base\String;
+
 trait HookSupport {
 
 	private $_hooks = [];
 	
-	protected function registerHook($name,$hook) 
-	{
+	protected function on($name,$hook) { 
 		$this->_hooks[$name][] = $hook;
 	}
 
-	protected function callHook($name,$args = []) 
-	{
-		if (!isset($this->_hooks[$name])) return;
+	public function trigger($name,$args = [],$default = null) { 
+		$hooks = isset($this->_hooks[$name]) ? $this->_hooks[$name] : [];
+
+		if (!count($hooks)) {
+			if (is_callable($default)) return call_user_func_array($default, $args);
+			return $default;
+		}
 		
-		$continue = true;		
+		$continue = true;
 		array_map(function($func) use ($args,$continue) {
-			if (!$continue) return;
-			if ($func($args) === false) $continue = false;
-		}, $this->_hooks[$name]);
+			if (!$continue) return $continue;
+			$ret = call_user_func_array($func, $args);
+			if ($ret === false) $continue = false;
+		}, $hooks);
 
 		return $continue;
 	}
